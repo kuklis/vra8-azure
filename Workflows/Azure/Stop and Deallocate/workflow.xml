@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item1" object-name="workflow:name=generic" id="441e7f45-394b-484a-9a05-277f1a46c787" editor-version="1.6" version="0.0.0" api-version="6.0.0" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Stop and Deallocate</display-name>
+    <position y="27.227272727272727" x="65.0"/>
+    <input/>
+    <output/>
+    <attrib name="vmName" type="string">
+        <value encoded="n"></value>
+    </attrib>
+    <attrib name="azTenantId" type="string" conf-id="ccde855a-17bc-48b8-bcb6-3cf6bc753e03" conf-key="tenantId">
+        <description>Azure Tenant ID</description>
+    </attrib>
+    <attrib name="azClientId" type="string" conf-id="ccde855a-17bc-48b8-bcb6-3cf6bc753e03" conf-key="clientId">
+        <description>Application (Client) ID</description>
+    </attrib>
+    <attrib name="azClientSecret" type="SecureString" conf-id="ccde855a-17bc-48b8-bcb6-3cf6bc753e03" conf-key="clientSecret">
+        <description>Application (Client) secret</description>
+    </attrib>
+    <attrib name="rgName" type="string" conf-id="361b6976-9cc9-4d9f-8b35-458c52db6e28" conf-key="resourceGroup">
+        <description>Azure Resource Group</description>
+    </attrib>
+    <workflow-item name="item0" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="27.227272727272727" x="484.5"/>
+    </workflow-item>
+    <workflow-item name="item1" out-name="item2" type="task" comparator="0">
+        <display-name>Get VM name</display-name>
+        <script encoded="false">var resourceProperties = System.getContext().getParameter("__metadata_resourceProperties");
+vmName = resourceProperties.resourceName;</script>
+        <in-binding/>
+        <out-binding>
+            <bind name="vmName" type="string" export-name="vmName"/>
+        </out-binding>
+        <position y="37.22727272727273" x="164.5"/>
+    </workflow-item>
+    <workflow-item name="item2" out-name="item0" type="task" script-module="com.azure.powershell/stop_deallocate" comparator="0">
+        <display-name>stop_deallocate</display-name>
+        <script encoded="false">//Auto generated script, cannot be modified !
+actionResult = System.getModule("com.azure.powershell").stop_deallocate(azTenantId,azClientId,azClientSecret,rgName,vmName) ;</script>
+        <in-binding>
+            <bind name="azTenantId" type="string" export-name="azTenantId">
+                <description>Azure Tenant ID</description>
+            </bind>
+            <bind name="azClientId" type="string" export-name="azClientId">
+                <description>Application (Client) ID</description>
+            </bind>
+            <bind name="azClientSecret" type="SecureString" export-name="azClientSecret">
+                <description>Application (Client) secret</description>
+            </bind>
+            <bind name="rgName" type="string" export-name="rgName">
+                <description>Azure Resource Group</description>
+            </bind>
+            <bind name="vmName" type="string" export-name="vmName">
+                <description>Azure VM name</description>
+            </bind>
+        </in-binding>
+        <out-binding>
+            <bind name="actionResult" type="string" export-name="NULL"/>
+        </out-binding>
+        <description>Stop and deallocate a VM with Azure PowerShell command</description>
+        <position y="37.22727272727273" x="304.5"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>

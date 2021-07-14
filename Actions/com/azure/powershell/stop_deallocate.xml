@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dunes-script-module name="stop_deallocate" result-type="string" api-version="6.0.0" id="d86b764b-11db-46ea-b820-d8d6bc203303" version="0.0.0" category-name="com.azure.powershell">
+  <description><![CDATA[Stop and deallocate a VM with Azure PowerShell command]]></description>
+  <runtime><![CDATA[powercli:12-powershell-7.0]]></runtime>
+  <entry-point><![CDATA[stop_deallocate.handler]]></entry-point>
+  <param n="azTenantId" t="string"><![CDATA[Azure Tenant ID]]></param>
+  <param n="azClientId" t="string"><![CDATA[Application (Client) ID]]></param>
+  <param n="azClientSecret" t="SecureString"><![CDATA[Application (Client) secret]]></param>
+  <param n="rgName" t="string"><![CDATA[Azure Resource Group]]></param>
+  <param n="vmName" t="string"><![CDATA[Azure VM name]]></param>
+  <script encoded="false"><![CDATA[function Handler($context, $inputs) {
+    $inputsString = $inputs | ConvertTo-Json -Compress
+
+    Write-Host "Inputs were $inputsString"
+
+    $output=@{status = 'done'}
+
+    return $output
+}
+]]></script>
+</dunes-script-module>
